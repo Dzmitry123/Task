@@ -1,11 +1,14 @@
 <div>
   <h1> Игра крестики нолики </h1>
 
-  <div class="card">
-    <div class="form-control">
-      <input type="text" placeholder="Название" [(ngModel)]="todoPlayer">
+  <div class="card" *ngIf="players.length  < 2">
+        <div class="form-control">
+      <input type="text" placeholder="Имя игрока" [(ngModel)]="namePlayer">
     </div>
+
     <button class="btn" (click)="addPlayer()">Добавить</button>
   </div>
+
+  <hr>
 
 </div>

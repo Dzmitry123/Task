@@ -1,11 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {delay, filter, map} from "rxjs";
 
-export interface Todo {
-  completed: boolean;
-  title: string;
-  id?: number
+export interface Player {
+  name: string;
 }
 
 @Component({
@@ -15,28 +11,21 @@ export interface Todo {
 })
 export class AppComponent implements OnInit {
 
-  todos: Todo[] = [];
-
-  todoPlayer = '';
-  loading = false;
+  public players: Player[] = [];
+  public namePlayer = '';
 
   constructor() {
+  }
+
+  ngOnInit() {
 
   }
 
-  ngOnInit() {}
-
 
   addPlayer() {
-    if (!this.todoPlayer.trim()) {
-      return;
-    }
-    const newTodo: Todo = {
-      title: this.todoPlayer,
-      completed: false
-    }
-   }
-
-
-
+    let player: Player = {name: this.namePlayer};
+    this.players.push(player);
+    this.namePlayer = '';
+    console.log(this.players.length)
+  }
 }
