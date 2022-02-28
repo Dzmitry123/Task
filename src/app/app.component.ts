@@ -3,10 +3,11 @@ import {Component, OnInit} from '@angular/core';
 export interface Player {
   name: string;
 }
+
 export interface Cell {
   x: number,
   y: number,
-  crossed: string
+  status: string
 }
 
 @Component({
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
 
   public players: Player[] = [];
   public namePlayer = '';
-  public cells: Cell[] = [];
+  public field: Cell[][] = [[], [], []];
 
 
   constructor() {
@@ -26,12 +27,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    for (let i=0; i<3; i++) {
-      let cell: Cell = {x: i, y: 0, crossed: 'empty'};
-      this.cells.push(cell)
-    }
+    for (let i = 0; i < 3; i++) {
+      for (let j=0; j < 3; j++) {
+        let cell: Cell = {x: i, y: j, status: 'empty'};
+        this.field[i].push(cell)
+      }
+     }
   }
-
 
 
   addPlayer() {
@@ -39,5 +41,10 @@ export class AppComponent implements OnInit {
     this.players.push(player);
     this.namePlayer = '';
     console.log(this.players.length)
+  }
+
+  crossed(cell: Cell) {
+    cell.status = 'crossed';
+
   }
 }
