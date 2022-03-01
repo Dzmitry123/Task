@@ -14,7 +14,8 @@
   <div class="container" *ngFor="let player of players; let i = index">
     {{player.name}} играет за {{i ? '0' : 'X и ходит первым'}}
   </div>
-  <div *ngIf="winner">Победитель {{winner}}</div>
+     <div class="popup" *ngIf="turn >= 9">Ничья</div>
+     <div class="popup" *ngIf="winner">Победитель {{winner}} </div>
   <div class="pole" *ngIf="players.length == 2" >
     <div *ngFor="let cells of field">
       <div class="cell" *ngFor="let cell of cells" (click)="click(cell)">

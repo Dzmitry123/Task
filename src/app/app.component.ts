@@ -62,8 +62,6 @@ export class AppComponent implements OnInit {
     if(Is0Won) {
       this.winner = this.players[1].name;
     }
-
-
   }
 
   createWinnerCombination() {
@@ -103,6 +101,7 @@ export class AppComponent implements OnInit {
   }
   creatNewGame() {
     this.field = [[], [], []];
+    this.turn = 0;
     this.winner = '';
     this.players = [];
     for (let i = 0; i < 3; i++) {
