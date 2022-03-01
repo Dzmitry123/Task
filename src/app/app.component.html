@@ -12,11 +12,14 @@
   <hr>
 
   <div class="container" *ngFor="let player of players; let i = index">
-    {{player.name}} играет за {{i ? '0' : 'X'}}
+    {{player.name}} играет за {{i ? '0' : 'X и ходит первым'}}
   </div>
-  <div class="pole">
+  <div class="pole" *ngIf="players.length == 2" >
     <div *ngFor="let cells of field">
-      <div class="cell" *ngFor="let cell of cells" (click)="crossed(cell)">{{'crossed' == cell.status ? 'X' : ''}}
+      <div class="cell" *ngFor="let cell of cells" (click)="click(cell)">
+        <span *ngIf="cell.status == 'crossed'">X</span>
+        <span *ngIf="cell.status == 'zero'">0</span>
       </div>
     </div>
   </div>
+</div>
