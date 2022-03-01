@@ -27,13 +27,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        let cell: Cell = {x: i, y: j, status: 'empty'};
-        this.field[i].push(cell)
-      }
-    }
+    this.creatNewGame();
   }
 
 
@@ -42,7 +36,6 @@ export class AppComponent implements OnInit {
       let player: Player = {name: this.namePlayer};
       this.players.push(player);
       this.namePlayer = '';
-      console.log(this.players.length)
     }
   }
 
@@ -55,6 +48,16 @@ export class AppComponent implements OnInit {
       }
       this.turn++;
       console.log(this.turn)
+    }
+  }
+  creatNewGame() {
+    this.field = [[], [], []];
+    this.players = [];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        let cell: Cell = {x: i, y: j, status: 'empty'};
+        this.field[i].push(cell)
+      }
     }
   }
 }
