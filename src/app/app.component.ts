@@ -9,6 +9,7 @@ export interface Cell {
   y: number,
   status: string
 }
+
 export interface Combination {
   x: number,
   y: number
@@ -42,37 +43,69 @@ export class AppComponent implements OnInit {
     let xCells: Cell[] = [];
     let oCells: Cell[] = [];
     this.field.forEach(cells => cells.forEach(cell => {
-      if(cell.status == 'crossed') {
+      if (cell.status == 'crossed') {
         xCells.push(cell);
       }
-      if(cell.status == 'zero') {
+      if (cell.status == 'zero') {
         oCells.push(cell);
       }
     }));
-
-    let IsXWon = this.winnerCombinations.some(combination => {
-      return combination.every(cell => xCells.some(xCell => xCell.x === cell.x && xCell.y === cell.y));
-    });
-    if(IsXWon) {
-      this.winner = this.players[0].name;
+    for (let i = 0; i < this.winnerCombinations.length; i++) {
+      let hasWon = this.hasWon(this.winnerCombinations[i], xCells);
+      if(hasWon) {
+        this.winner = '';
+        break;
+      }
     }
-    let Is0Won = this.winnerCombinations.some(combination => {
-      return combination.every(cell => oCells.some(oCell => oCell.x === cell.x && oCell.y === cell.y));
-    });
-    if(Is0Won) {
+
+    // let IsXWon = this.winnerCombinations.some(combination => {
+    //   return combination.every(cell => {
+    //     return xCells.some(xCell => {
+    //       return xCell.x === cell.x && xCell.y === cell.y;
+    //     })
+    //   });
+    // });
+    // if (IsXWon) {
+    //   this.winner = this.players[0].name;
+    // }
+
+    let
+      Is0Won = this.winnerCombinations.some(combination => {
+        return combination.every(cell => oCells.some(oCell => oCell.x === cell.x && oCell.y === cell.y));
+      });
+
+    if (Is0Won) {
       this.winner = this.players[1].name;
     }
   }
 
+  hasFindCell(arr: Cell[], combination: Combination) : boolean {
+    for(let i = 0; i < arr.length; i++) {
+      if(arr[i].x == combination.x && arr[i].y == combination.y) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  hasWon(combinations: Combination[], cells: Cell[]): boolean {
+    for(let i = 0; i< combinations.length; i++) {
+      let hasFind = this.hasFindCell(cells, combinations[i]);
+      if(!hasFind) {
+        return false;
+      }
+    }
+    return true;
+  }
   createWinnerCombination() {
-    this.winnerCombinations.push([{x:0,y:0},{x:0,y:1},{x:0,y:2}]);
-    this.winnerCombinations.push([{x:1,y:0},{x:1,y:1},{x:1,y:2}]);
-    this.winnerCombinations.push([{x:2,y:0},{x:2,y:1},{x:2,y:2}]);
-    this.winnerCombinations.push([{x:0,y:0},{x:1,y:0},{x:2,y:0}]);
-    this.winnerCombinations.push([{x:0,y:1},{x:1,y:1},{x:2,y:1}]);
-    this.winnerCombinations.push([{x:0,y:2},{x:1,y:2},{x:2,y:2}]);
-    this.winnerCombinations.push([{x:0,y:2},{x:1,y:1},{x:2,y:0}]);
-    this.winnerCombinations.push([{x:0,y:0},{x:1,y:1},{x:2,y:2}]);
+    this.winnerCombinations.push([{x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}]);
+    this.winnerCombinations.push([{x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}]);
+    this.winnerCombinations.push([{x: 2, y: 0}, {x: 2, y: 1}, {x: 2, y: 2}]);
+    this.winnerCombinations.push([{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}]);
+    this.winnerCombinations.push([{x: 0, y: 1}, {x: 1, y: 1}, {x: 2, y: 1}]);
+    this.winnerCombinations.push([{x: 0, y: 2}, {x: 1, y: 2}, {x: 2, y: 2}]);
+    this.winnerCombinations.push([{x: 0, y: 2}, {x: 1, y: 1}, {x: 2, y: 0}]);
+    this.winnerCombinations.push([{x: 0, y: 0}, {x: 1, y: 1}, {x: 2, y: 2}]);
   }
 
 
@@ -84,7 +117,10 @@ export class AppComponent implements OnInit {
     }
   }
 
-  click(cell: Cell) {
+  click(cell
+          :
+          Cell
+  ) {
     if (!this.winner && cell.status == 'empty') {
       if (this.turn % 2 == 0) {
         cell.status = 'crossed'
@@ -93,12 +129,13 @@ export class AppComponent implements OnInit {
       }
       this.turn++;
       console.log(this.turn)
-      if(this.turn >= 5) {
+      if (this.turn >= 5) {
         this.checkWinning();
       }
     }
 
   }
+
   creatNewGame() {
     this.field = [[], [], []];
     this.turn = 0;
